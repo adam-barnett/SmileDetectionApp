@@ -1,0 +1,13 @@
+Worklist for smile detection app:
+Initial work
+- get basic Python placeholding in place and backed up on git
+- grab needed Python libraries
+- get basic react UI in place and figure out displaying images and text sent by Python component
+- get basic DB storage in place with access from Python
+Main part of work:
+- flesh out full react UI
+- get full interactions between UI and Python up and running
+- write code to detect faces and then code to detect smiles
+- get it all hooked up and working
+Final part, extension work:
+- write tests for it all (figure out react tests and 
