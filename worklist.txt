@@ -1,13 +1,32 @@
 Worklist for smile detection app:
-Initial work
-- get basic Python placeholding in place and backed up on git
-- grab needed Python libraries
-- get basic react UI in place and figure out displaying images and text sent by Python component
-- get basic DB storage in place with access from Python
-Main part of work:
-- flesh out full react UI
-- get full interactions between UI and Python up and running
-- write code to detect faces and then code to detect smiles
-- get it all hooked up and working
-Final part, extension work:
-- write tests for it all (figure out react tests and 
+ToDo:
+- get structure defined properly
+- pull across and tidy up rough working version camera streaming from back to front-end
+- extend backend with smile detection
+- Add in basic local DB storage 
+- Add in tests
+- Provide a more fully formed frontend (options for frame-rate, which camera to use etc.)
+- attempt to package the entire project
+
+Packages to use for work:
+- react with typescript (potentially build it in javascript then convert)
+- python with: OpenCV, SQLAlchemy, FastAPI, uvicorn
+
+Notes on getting it running
+- backend:
+	- Navigate to backend folder in a cmd window, then use uvicorn main:app --reload
+- frontend: 
+	- in a terminal in vscode use npm start then navigate a browser to the given link
+
+
+Sources found/references:
+https://stackoverflow.com/questions/67548550/how-do-i-display-fastapis-fileresponse-image-inside-react (sending images directly from python backend through fastAPI to frontend
+https://stackoverflow.com/questions/55873174/how-do-i-return-an-image-in-fastapi (another image sending answer)
+https://www.geeksforgeeks.org/python-smile-detection-using-opencv/ (a little out of date, but seems good still)
+https://stackoverflow.com/questions/74090972/how-to-stream-video-images-from-python-app-to-a-remote-reactjs-webpage (potential connectivity solutions)
+https://stackoverflow.com/questions/6506578/how-to-create-a-new-database-using-sqlalchemy (local database creation using SQLAlchemy)
+https://docs.google.com/document/d/11vayu33fJ2xq4ORD2t7A2H-E95GrGx_fed1PwMOmVPU/edit?tab=t.0 (potentially packaging this up as a locally runnable executable)
+
+tools used:
+- vscode 
+- prettier
