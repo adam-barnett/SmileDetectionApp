@@ -1,8 +1,5 @@
 Worklist for smile detection app:
 ToDo:
-- get structure defined properly
-- pull across and tidy up rough working version camera streaming from back to front-end
-- extend backend with smile detection
 - Add in basic local DB storage 
 - Add in tests
 - Provide a more fully formed frontend (options for frame-rate, which camera to use etc.)
@@ -15,6 +12,7 @@ Packages to use for work:
 Notes on getting it running
 - backend:
 	- Navigate to backend folder in a cmd window, then use uvicorn main:app --reload
+	- to test on its own, run the file using py main.py and terminate with space bar
 - frontend: 
 	- in a terminal in vscode use npm start then navigate a browser to the given link
 
@@ -26,7 +24,9 @@ https://www.geeksforgeeks.org/python-smile-detection-using-opencv/ (a little out
 https://stackoverflow.com/questions/74090972/how-to-stream-video-images-from-python-app-to-a-remote-reactjs-webpage (potential connectivity solutions)
 https://stackoverflow.com/questions/6506578/how-to-create-a-new-database-using-sqlalchemy (local database creation using SQLAlchemy)
 https://docs.google.com/document/d/11vayu33fJ2xq4ORD2t7A2H-E95GrGx_fed1PwMOmVPU/edit?tab=t.0 (potentially packaging this up as a locally runnable executable)
+https://mk.bcgsc.ca/colorblind/palettes.mhtml (colorblind friendly color references)
 
 tools used:
 - vscode 
 - prettier
+- vite
