@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { StartStopBotton } from "./StartStopButton";
 
 function App() {
   const [image, setImage] = useState([]);
@@ -19,6 +20,7 @@ function App() {
   return (
     <div>
       <img src={image} />
+      <StartStopBotton />
     </div>
   );
 }

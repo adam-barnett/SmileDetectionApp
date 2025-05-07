@@ -1,12 +1,12 @@
+import base64
+import threading
 import time
 
+import cv2
+import keyboard
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import threading
-import base64
-import cv2
-import keyboard
 
 app = FastAPI()
 
@@ -19,19 +19,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Future work: it sets of alarm bells that I have so many essentially global variables existing, likely solution is to
+    # move this entire file within a single class
 image_data = []  # Stores latest frame (in base 64 as a json string ready to display in react)
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml')
 smile_cascade = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_smile.xml')
 stop_event = threading.Event()
+currently_capturing = False
 # two colorblind friendly colors
 smiles_col = (213, 94, 0)
 faces_col = (34, 113, 178)
 
 def primary_backend_loop(display):
+    global currently_capturing
+    currently_capturing = True
     cap = cv2.VideoCapture(0)  # 0 = default camera (future work: check available cameras and offer options to frontend)
 
     if not cap.isOpened():
         print("Could not open webcam.")
+        currently_capturing = False
         return
 
     while True:
@@ -54,13 +60,15 @@ def primary_backend_loop(display):
             image_data.append(f"data:image/jpeg;base64,{b64}")
         if stop_event.is_set():
             break
+        time.sleep(0.03)
     cap.release()
     cv2.destroyAllWindows()
+    currently_capturing = False
 
-""" note this is a deprecated method, kept for now, hopefully will have time to replace it
+""" note on_event("startup") is a deprecated method, kept for now, hopefully will have time to replace it
 correct thing to use is lifespan events (https://fastapi.tiangolo.com/advanced/events/#lifespan )
 there may also be some logic to shifting the code in this file over to a class and using __init__ and __del__"""
-@app.on_event("startup")
+#app.on_event("startup")
 def start_backend_thread(testing_locally=False):
     thread = threading.Thread(target=primary_backend_loop, daemon=True, args=[testing_locally])
     thread.start()
@@ -69,6 +77,18 @@ def start_backend_thread(testing_locally=False):
 def get_current_image():
     # future work: might be worth using a lock on this data here and above where it is accessed
     return JSONResponse(content=image_data.copy())
+
+@app.post("/start_stop")
+async def start_stop():
+    print("start_stop called")
+    if currently_capturing:
+        if not stop_event.is_set():
+            stop_event.set()
+        # else we do nothing and just wait for it to end
+    else:
+        stop_event.clear()
+        start_backend_thread()
+    return {"message": "Start/Stop function executed"}
 
 """ notes of things to try in here:
 - different input values to the different cascade detections
