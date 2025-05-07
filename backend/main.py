@@ -85,10 +85,11 @@ async def start_stop():
         if not stop_event.is_set():
             stop_event.set()
         # else we do nothing and just wait for it to end
+        return {"state": "stopped"}
     else:
         stop_event.clear()
         start_backend_thread()
-    return {"message": "Start/Stop function executed"}
+        return {"state": "running"}
 
 """ notes of things to try in here:
 - different input values to the different cascade detections
