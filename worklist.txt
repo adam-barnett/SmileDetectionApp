@@ -1,5 +1,6 @@
 Worklist for smile detection app:
 ToDo:
+- Add in button and coordinates 
 - Add in basic local DB storage 
 - Add in tests
 - Provide a more fully formed frontend (options for frame-rate, which camera to use etc.)
@@ -7,7 +8,7 @@ ToDo:
 
 Packages to use for work:
 - react with typescript (potentially build it in javascript then convert)
-- python with: OpenCV, SQLAlchemy, FastAPI, uvicorn
+- python with: OpenCV, SQLAlchemy, FastAPI, uvicorn, keyboard
 
 Notes on getting it running
 - backend:
@@ -16,13 +17,17 @@ Notes on getting it running
 - frontend: 
 	- in a terminal in vscode use npm start then navigate a browser to the given link
 
+DB investigation:
+https://www.reddit.com/r/flask/comments/fccb66/storing_images_to_sqlite_database/ (storing images if I want to (which I think I do))
+https://stackoverflow.com/questions/6506578/how-to-create-a-new-database-using-sqlalchemy (local database creation using SQLAlchemy - NOTE this is ancient)
+https://docs.sqlalchemy.org/en/20/orm/quickstart.html (seems to be a pretty ideal overview for SQLAlchemy
 
 Sources found/references:
 https://stackoverflow.com/questions/67548550/how-do-i-display-fastapis-fileresponse-image-inside-react (sending images directly from python backend through fastAPI to frontend
 https://stackoverflow.com/questions/55873174/how-do-i-return-an-image-in-fastapi (another image sending answer)
 https://www.geeksforgeeks.org/python-smile-detection-using-opencv/ (a little out of date, but seems good still)
 https://stackoverflow.com/questions/74090972/how-to-stream-video-images-from-python-app-to-a-remote-reactjs-webpage (potential connectivity solutions)
-https://stackoverflow.com/questions/6506578/how-to-create-a-new-database-using-sqlalchemy (local database creation using SQLAlchemy)
+
 https://docs.google.com/document/d/11vayu33fJ2xq4ORD2t7A2H-E95GrGx_fed1PwMOmVPU/edit?tab=t.0 (potentially packaging this up as a locally runnable executable)
 https://mk.bcgsc.ca/colorblind/palettes.mhtml (colorblind friendly color references)
 
@@ -30,3 +35,23 @@ tools used:
 - vscode 
 - prettier
 - vite
+
+Instructions:
+Objective: Develop a small React application that communicates to a Python backend service and displays an image with a detected smile.
+
+Requirements:
+
+    User Interface:
+        Implement a button to start and stop the image capturing process.
+        Ensure the UI updates at least once per second.
+        Display the captured image on the left half of the screen with a smile bounding box.
+        Show the coordinates of the detected smile on the right half of the screen.
+
+    Backend Integration:
+        Use a Python backend to acquire the image and send it to front-end.
+        Add a rectangle around the detected smile on the face.
+        Store successfully detected smiles in files.
+        Persist information about detection events in a database.
+
+Application should not use external services (like Google API). It is fine to use libraries (opencv is OK). 
+Make sure your final result has some tests and instructions.
