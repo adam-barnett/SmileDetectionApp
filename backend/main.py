@@ -6,7 +6,7 @@ import cv2
 import keyboard
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+import datetime
 
 app = FastAPI()
 
@@ -65,6 +65,7 @@ def primary_backend_loop(display):
             if len(smiles) == 0:
                 current_coordinates = 'no current smiles'
             image_data['coordinates'] = current_coordinates
+            save_smile_data(smiles, frame)
             # image_data.clear()
             # image_data.append(f"data:image/jpeg;base64,{b64}")
         if stop_event.is_set():
@@ -74,10 +75,6 @@ def primary_backend_loop(display):
     cv2.destroyAllWindows()
     currently_capturing = False
 
-""" note on_event("startup") is a deprecated method, kept for now, hopefully will have time to replace it
-correct thing to use is lifespan events (https://fastapi.tiangolo.com/advanced/events/#lifespan )
-there may also be some logic to shifting the code in this file over to a class and using __init__ and __del__"""
-#app.on_event("startup")
 def start_backend_thread(testing_locally=False):
     thread = threading.Thread(target=primary_backend_loop, daemon=True, args=[testing_locally])
     thread.start()
@@ -122,6 +119,15 @@ def add_boxes_to_image(image, boxes, color):
     for (x, y, w, h) in boxes:
         cv2.rectangle(image, (x, y), ((x + w), (y + h)), color, 2)
     return image
+
+def save_smile_data(smiles, image):
+    smile_num = 1
+    curr_time = datetime.datetime.now()
+    for (x, y, w, h) in smiles:
+        smile_img = image[y:y + h, x:x + w]
+        filename = f'smile images\\{curr_time}_{smile_num}.png'
+        cv2.imwrite(filename.replace(':', '_').replace('-','_'), smile_img)
+        smile_num += 1
 
 def local_testing():
     start_backend_thread(True)
