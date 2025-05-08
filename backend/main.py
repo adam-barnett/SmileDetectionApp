@@ -21,7 +21,8 @@ app.add_middleware(
 
 # Future work: it sets of alarm bells that I have so many essentially global variables existing, likely solution is to
     # move this entire file within a single class
-image_data = []  # Stores latest frame (in base 64 as a json string ready to display in react)
+image_data = {'image': '', 'coordinates': ''}  # Stores latest frame (in base 64 as a json string ready to display in react,
+    # and the coordinates of the last detected smile
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_frontalface_default.xml')
 smile_cascade = cv2.CascadeClassifier(cv2.data.haarcascades +'haarcascade_smile.xml')
 stop_event = threading.Event()
@@ -32,6 +33,7 @@ faces_col = (34, 113, 178)
 
 def primary_backend_loop(display):
     global currently_capturing
+    global image_data
     currently_capturing = True
     cap = cv2.VideoCapture(0)  # 0 = default camera (future work: check available cameras and offer options to frontend)
 
@@ -56,8 +58,10 @@ def primary_backend_loop(display):
         if ret:
             # storing the frame in base 64 was necessary to get it from Python to react
             b64 = base64.b64encode(jpeg.tobytes()).decode('utf-8')
-            image_data.clear()
-            image_data.append(f"data:image/jpeg;base64,{b64}")
+            image_data['image'] = f'data:image/jpeg;base64,{b64}'
+            image_data['coordinates'] = f'x: {24} y{30}'
+            # image_data.clear()
+            # image_data.append(f"data:image/jpeg;base64,{b64}")
         if stop_event.is_set():
             break
         time.sleep(0.03)
@@ -76,7 +80,8 @@ def start_backend_thread(testing_locally=False):
 @app.get("/image")
 def get_current_image():
     # future work: might be worth using a lock on this data here and above where it is accessed
-    return JSONResponse(content=image_data.copy())
+    return image_data
+    #return JSONResponse(content=image_data.copy())
 
 @app.post("/start_stop")
 async def start_stop():

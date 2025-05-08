@@ -3,12 +3,16 @@ import { StartStopBotton } from "./StartStopButton";
 
 function App() {
   const [image, setImage] = useState([]);
+  const [smileCoordinates, setSmileCoordinates] = useState([]);
 
   useEffect(() => {
     const fetchImage = () => {
       fetch("http://localhost:8000/image")
         .then((res) => res.json())
-        .then((data) => setImage(data))
+        .then((data) => {
+          setImage(data.image);
+          setSmileCoordinates(data.coordinates);
+        })
         .catch((err) => console.error("Error fetching image:", err));
     };
 
@@ -18,10 +22,15 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <img src={image} />
-      <StartStopBotton />
-    </div>
+    <>
+      <div style={{ width: "60%", float: "left" }}>
+        <img src={image} />
+      </div>
+      <div style={{ width: "40%", float: "right" }}>
+        <StartStopBotton />
+        <h1>{smileCoordinates}</h1>
+      </div>
+    </>
   );
 }
 
