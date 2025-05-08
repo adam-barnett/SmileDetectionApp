@@ -1,10 +1,15 @@
 Worklist for smile detection app:
 ToDo:
-- Add in button and coordinates 
+likely finish before Friday
+- make sure UI button/status update themselves periodically
 - Add in basic local DB storage 
-- Add in tests
+- Add in basic test structure at either end
+- tidy up code 
+- update readme with: tools needed/used, running methods, etc.
+Ongoing items I'd like to do:
 - Provide a more fully formed frontend (options for frame-rate, which camera to use etc.)
 - attempt to package the entire project
+- re-write backend to remove the reliance on global variables 
 
 Packages to use for work:
 - react with typescript (potentially build it in javascript then convert)
