@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StartStopBotton } from "./StartStopButton";
+import { StartStopButton } from "./StartStopButton";
 
 function App() {
   const [image, setImage] = useState([]);
@@ -16,9 +16,9 @@ function App() {
         .catch((err) => console.error("Error fetching image:", err));
     };
 
-    const interval = setInterval(fetchImage, 20); // Refresh every 20 milliseconds (future work: make this value and option to be set)
+    const interval = setInterval(fetchImage, 20);
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -27,7 +27,7 @@ function App() {
         <img src={image} />
       </div>
       <div style={{ width: "40%", float: "right" }}>
-        <StartStopBotton />
+        <StartStopButton />
         <h1>{smileCoordinates}</h1>
       </div>
     </>

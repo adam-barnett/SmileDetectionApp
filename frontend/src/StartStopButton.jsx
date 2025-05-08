@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-export function StartStopBotton() {
+export function StartStopButton() {
   const [cameraState, setcameraState] = useState("stopped");
 
   function StartCapture() {
