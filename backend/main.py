@@ -59,7 +59,12 @@ def primary_backend_loop(display):
             # storing the frame in base 64 was necessary to get it from Python to react
             b64 = base64.b64encode(jpeg.tobytes()).decode('utf-8')
             image_data['image'] = f'data:image/jpeg;base64,{b64}'
-            image_data['coordinates'] = f'x: {24} y{30}'
+            current_coordinates = 'smiles found at - '
+            for (x, y, w, h) in smiles:
+                current_coordinates = current_coordinates + f'x:{x}y:{y} '
+            if len(smiles) == 0:
+                current_coordinates = 'no current smiles'
+            image_data['coordinates'] = current_coordinates
             # image_data.clear()
             # image_data.append(f"data:image/jpeg;base64,{b64}")
         if stop_event.is_set():
