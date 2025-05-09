@@ -1,7 +1,7 @@
 import base64
 import threading
 import time
-
+import copy
 import cv2
 import keyboard
 from fastapi import FastAPI
@@ -49,13 +49,14 @@ def primary_backend_loop(display):
             continue
         # detecting then adding the faces and smiles
         [faces, smiles] = find_faces_and_smiles(frame)
-        faces_image = add_boxes_to_image(frame, faces, faces_col)
-        smiles_image = add_boxes_to_image(faces_image, smiles, smiles_col)
+        bounded_image = copy.copy(frame)
+        add_boxes_to_image(bounded_image, faces, faces_col)
+        add_boxes_to_image(bounded_image, smiles, smiles_col)
         if display:
-            cv2.imshow('testing_backend', smiles_image)
+            cv2.imshow('testing_backend', bounded_image)
             if cv2.waitKey(1) == 32: #space bar
                 break
-        ret, jpeg = cv2.imencode('.jpg', smiles_image)
+        ret, jpeg = cv2.imencode('.jpg', bounded_image)
         if ret:
             # storing the frame in base 64 was necessary to get it from Python to react
             b64 = base64.b64encode(jpeg.tobytes()).decode('utf-8')
