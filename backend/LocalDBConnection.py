@@ -35,15 +35,17 @@ class LocalDBConnection:
         Base.metadata.create_all(self.engine)
 
     def add_smiles(self, smiles, full_image):
+        if len(smiles) == 0:
+            return
         [curr_datetime, file_locations] = self.save_smile_data(smiles, full_image)
         smiles_to_store = []
         for i in range(len(smiles)):
             smiles_to_store.append(Smile(
                 disk_location=file_locations[i],
-                x = smiles[i][0],
-                y = smiles[i][1],
-                w = smiles[i][2],
-                h = smiles[i][3],
+                x = int(smiles[i][0]),
+                y = int(smiles[i][1]),
+                w = int(smiles[i][2]),
+                h = int(smiles[i][3]),
                 time = curr_datetime
             ))
         with Session(self.engine) as session:
