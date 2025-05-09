@@ -97,12 +97,6 @@ async def start_stop():
         start_backend_thread()
         return {"state": "running"}
 
-""" notes of things to try in here:
-- different input values to the different cascade detections
-- the official documents recommend equalising the histogram of the image:
-   equ = cv2.equalizeHist(img)
-   but they are very old, test the usefulness of this
-- do some verification and testing of the scale factor and minNeighbours input options"""
 def find_faces_and_smiles(frame):
     grayscale_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     equalized_frame = cv2.equalizeHist(grayscale_frame)
