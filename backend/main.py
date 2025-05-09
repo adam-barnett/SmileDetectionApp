@@ -6,7 +6,7 @@ import cv2
 import keyboard
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import datetime
+from LocalDBConnection import LocalDBConnection
 
 app = FastAPI()
 
@@ -34,6 +34,7 @@ faces_col = (34, 113, 178)
 def primary_backend_loop(display):
     global currently_capturing
     global image_data
+    db_connection = LocalDBConnection()
     currently_capturing = True
     cap = cv2.VideoCapture(0)  # 0 = default camera (future work: check available cameras and offer options to frontend)
 
@@ -65,9 +66,7 @@ def primary_backend_loop(display):
             if len(smiles) == 0:
                 current_coordinates = 'no current smiles'
             image_data['coordinates'] = current_coordinates
-            save_smile_data(smiles, frame)
-            # image_data.clear()
-            # image_data.append(f"data:image/jpeg;base64,{b64}")
+            db_connection.save_smile_data(smiles, frame)
         if stop_event.is_set():
             break
         time.sleep(0.03)
@@ -83,7 +82,6 @@ def start_backend_thread(testing_locally=False):
 def get_current_image():
     # future work: might be worth using a lock on this data here and above where it is accessed
     return image_data
-    #return JSONResponse(content=image_data.copy())
 
 @app.post("/start_stop")
 async def start_stop():
@@ -120,15 +118,6 @@ def add_boxes_to_image(image, boxes, color):
         cv2.rectangle(image, (x, y), ((x + w), (y + h)), color, 2)
     return image
 
-def save_smile_data(smiles, image):
-    smile_num = 1
-    curr_time = datetime.datetime.now()
-    for (x, y, w, h) in smiles:
-        smile_img = image[y:y + h, x:x + w]
-        filename = f'smile images\\{curr_time}_{smile_num}.png'
-        cv2.imwrite(filename.replace(':', '_').replace('-','_'), smile_img)
-        smile_num += 1
-
 def local_testing():
     start_backend_thread(True)
     # Need to start primary backend loop (AND stop it when we exit)
@@ -137,7 +126,6 @@ def local_testing():
             print('exiting')
             stop_event.set()
             break
-
 
 
 if __name__ == "__main__":
