@@ -105,11 +105,12 @@ async def start_stop():
 - do some verification and testing of the scale factor and minNeighbours input options"""
 def find_faces_and_smiles(frame):
     grayscale_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(grayscale_frame, 1.3, 5)
+    equalized_frame = cv2.equalizeHist(grayscale_frame)
+    faces = face_cascade.detectMultiScale(equalized_frame, 1.05, 5)
     full_smiles = []
     for (x, y, w, h) in faces:
         grayscale_face = grayscale_frame[y:y + h, x:x + w]
-        local_smiles = smile_cascade.detectMultiScale(grayscale_face, 1.8, 20)
+        local_smiles = smile_cascade.detectMultiScale(grayscale_face, 1.05, 6)
         for (x_smile, y_smile, w_smile, h_smile) in local_smiles:
             full_smiles.append((x_smile + x, y_smile + y, w_smile, h_smile))
     return faces, tuple(full_smiles)
