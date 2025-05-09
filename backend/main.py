@@ -66,7 +66,7 @@ def primary_backend_loop(display):
             if len(smiles) == 0:
                 current_coordinates = 'no current smiles'
             image_data['coordinates'] = current_coordinates
-            db_connection.save_smile_data(smiles, frame)
+            db_connection.add_smiles(smiles, frame)
         if stop_event.is_set():
             break
         time.sleep(0.03)
