@@ -32,6 +32,6 @@ Future work:
 - Convert the backend to be a remote server. (Currently this is built in such a way that the backend must be running on the local machine, as it is the thing collecting frames. Switching to having the camera connection be at the frontend would allow this to be something that I could potentially host online with the backend being run on a server I set up myself)
 
 Sources used:
-https://mk.bcgsc.ca/colorblind/palettes.mhtml (colorblind friendly color references)
-https://docs.sqlalchemy.org/en/20/orm/quickstart.html (for an overview of sqlalchemy)
-
+- https://mk.bcgsc.ca/colorblind/palettes.mhtml (colorblind friendly color references)
+- https://docs.sqlalchemy.org/en/20/orm/quickstart.html (for an overview of sqlalchemy)
+- https://courses.webdevsimplified.com/ (for initial introduction to react)
